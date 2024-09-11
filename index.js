@@ -1,6 +1,6 @@
 const app = require('express')();
 
-const persons = [
+let persons = [
     { 
       "id": "1",
       "name": "Arto Hellas", 
@@ -41,6 +41,11 @@ app.get('/info', (req, res) => {
         <p>Phonebook has info for ${persons.length} people</p>
         <p>${new Date().toDateString()}</p>
     `)
+})
+
+app.delete('/api/persons/:id', (req, res) => {
+    persons = persons.filter(person => person.id !== req.params.id)
+    res.status(204).end()
 })
 
 app.listen(3001, () => {
