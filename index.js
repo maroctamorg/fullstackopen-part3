@@ -1,4 +1,7 @@
-const app = require('express')();
+const express = require('express');
+const app = express();
+
+app.use(express.json());
 
 let persons = [
     { 
@@ -46,6 +49,31 @@ app.get('/info', (req, res) => {
 app.delete('/api/persons/:id', (req, res) => {
     persons = persons.filter(person => person.id !== req.params.id)
     res.status(204).end()
+})
+
+app.post('/api/persons', (req, res) => {
+    const body = req.body
+
+    if(!body.name || !body.number) {
+        return res.status(400).json({
+            error: 'Person\'s name or phone number is missing'
+        })
+    }
+
+    if(persons.find(person => person.name === body.name)) {
+        return res.status(400).json({
+            error: `${body.name} already exists in the phonebook`
+        })
+    }
+
+    const person = {
+        name: body.name,
+        number: body.number,
+        id: Math.floor(Math.random() * 100000000).toString()
+    }
+
+    persons = persons.concat(person)
+    res.json(person)
 })
 
 app.listen(3001, () => {
