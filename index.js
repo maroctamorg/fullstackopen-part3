@@ -60,6 +60,12 @@ app.post('/api/persons', (req, res) => {
         })
     }
 
+    if(body.name === 'McLovin') {
+        return res.status(400).json({
+            error: 'It was between that and Mohammed'
+        })
+    }
+
     if(persons.find(person => person.name === body.name)) {
         return res.status(400).json({
             error: `${body.name} already exists in the phonebook`
