@@ -12,6 +12,8 @@ app.use(express.static('dist'));
 app.use(express.json());
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
 
+const url = process.env.MONGODB_CONNECTION_STRING;
+
 let persons = [
     { 
       "id": "1",
