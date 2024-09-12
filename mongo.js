@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-dotenv.config({ path: '.env' });
-const connectionString = process.env.MONGODB_CONNECTION_STRING;
+const mongoose = require('mongoose')
+const dotenv = require('dotenv')
+dotenv.config({ path: '.env' })
+const connectionString = process.env.MONGODB_CONNECTION_STRING
 
 if(process.argv.length !== 2 && process.argv.length !== 4) {
     console.log('Usage: node mongo.js [name] [number]')

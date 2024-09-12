@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-dotenv.config({ path: '.env' });
+const mongoose = require('mongoose')
+const dotenv = require('dotenv')
+dotenv.config({ path: '.env' })
 
 // configure mongoose
-const connectionString = process.env.MONGODB_CONNECTION_STRING;
+const connectionString = process.env.MONGODB_CONNECTION_STRING
 mongoose.set('strictQuery', false)
 mongoose.connect(connectionString)
     .then( () => {

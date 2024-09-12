@@ -1,18 +1,16 @@
-const express = require('express');
-const cors = require('cors');
-const morgan = require('morgan');
-const Person = require('./models/person');
+const express = require('express')
+const cors = require('cors')
+const morgan = require('morgan')
+const Person = require('./models/person')
 
 // configure middleware
-const app = express();
-app.use(cors());
-app.use(express.static('dist'));
-app.use(express.json());
+const app = express()
+app.use(cors())
+app.use(express.static('dist'))
+app.use(express.json())
 
-morgan.token('body', (req, res) => {
-    return JSON.stringify(req.body)
-})
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
+morgan.token('body', req => JSON.stringify(req.body))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 app.get('/api/persons', (req, res) => {
     Person.find({}).then( persons => {
@@ -40,12 +38,12 @@ app.get('/info', (req, res) => {
                 <p>${new Date().toDateString()}</p>
             `)
         }
-    )
+        )
 })
 
 app.delete('/api/persons/:id', (req, res, next) => {
-    persons = Person.findByIdAndDelete(req.params.id)
-        .then(result => res.status(204).end())
+    Person.findByIdAndDelete(req.params.id)
+        .then(() => res.status(204).end())
         .catch(error => next(error))
 })
 
@@ -69,7 +67,7 @@ app.post('/api/persons', (req, res, next) => {
         number: body.number
     })
 
-    person.save().then(savedPerson => res.json(person)).catch(error => next(error))
+    person.save().then(savedPerson => res.json(savedPerson)).catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (req, res, next) => {
@@ -80,14 +78,14 @@ app.put('/api/persons/:id', (req, res, next) => {
         number: body.number
     }
 
-    Person.findByIdAndUpdate(req.params.id, person, {new: true, runValidators: true, context: 'query'})
+    Person.findByIdAndUpdate(req.params.id, person, { new: true, runValidators: true, context: 'query' })
         .then(updatedPerson => res.json(updatedPerson))
         .catch(error => next(error))
-    }
+}
 )
 
 const unknownEndpoint = (req, res) => {
-    res.status(404).send({error: 'unknown endpoint'})
+    res.status(404).send({ error: 'unknown endpoint' })
 }
 app.use(unknownEndpoint)
 
@@ -95,11 +93,11 @@ const errorHandler = (error, req, res, next) => {
     console.error(error.message)
 
     if (error.name === 'CastError') {
-        return res.status(400).send({error: 'malformatted id'})
+        return res.status(400).send({ error: 'malformatted id' })
     }
 
     if (error.name === 'ValidationError') {
-        return res.status(400).json({error: error.message})
+        return res.status(400).json({ error: error.message })
     }
 
     next(error)

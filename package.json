@@ -10,7 +10,8 @@
     "build:ui": "rm -rf dist && cd ../fullstackopen/part2/phonebook/ && npm run build && cp -r build ../../../fullstackopen-part3/dist",
     "deploy": "fly deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
-    "logs:prod": "fly logs"
+    "logs:prod": "fly logs",
+    "lint": "eslint ."
   },
   "proxy": {
     "/api": {
@@ -35,7 +36,11 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.10.0",
     "@flydotio/dockerfile": "^0.5.8",
+    "@stylistic/eslint-plugin-js": "^2.8.0",
+    "eslint": "^9.10.0",
+    "globals": "^15.9.0",
     "nodemon": "^3.1.4"
   }
 }
